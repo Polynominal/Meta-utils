@@ -11,6 +11,70 @@ Currently the existing definitions are simply text.
 
 # Usage
 
+## Input
+
+```java
+public class Bean
+{
+    private String taste;
+    private int protein;
+    public Bean()
+    {
+        //do something
+    }
+}
+```
+
+## Output
+
+```java
+public class Bean
+{
+    private String taste;
+    private int protein;
+    public Bean()
+    {
+        //do something
+    }
+	/**
+	* 
+	* @param String taste sets the appropriate String to the variable taste
+	* 
+	*/
+	public void setTaste(String taste)
+	{
+		this.taste = taste;
+	}
+	/**
+	* 
+	* @param int protein sets the appropriate int to the variable protein
+	* 
+	*/
+	public void setProtein(int protein)
+	{
+		this.protein = protein;
+	}
+	/**
+	* 
+	* @return String taste returns the variable taste with type String
+	* 
+	*/
+	public String getTaste()
+	{
+		return taste;
+	}
+	/**
+	* 
+	* @return int protein returns the variable protein with type int
+	* 
+	*/
+	public int getProtein()
+	{
+		return protein;
+	}
+}
+```
+
 Either download a release or run the python script using python.
 
 There are two modes of usage:

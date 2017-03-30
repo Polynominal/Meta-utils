@@ -11,17 +11,17 @@ Name = "Get Set Go!"
 Changelog = " - Set Get's and Set's to follow a [get get, set set] format as per guidelines of Dr Newton \n"
 Changelog = Changelog + "\n - Added user check for adding (final) to the names"
 if EXECUTABLE:
+    UserInput = input
     print("Welcome to "+Name+" Version: "+Version)
     print("Changelog:")
     print(Changelog)
     print("Made in 08 March 2017 \n")
-    def UserInput(*args, **kwargs):
-        return input(arg,kwargs)
 else:
     def UserInput(*arg):
         return "PLEASE WRITE YOUR OWN USER INPUT FUNCTION!"
 ##Options
 OVERWRITE = False
+PROMPTUSER = True
 ##CLASS DEF
 CLSig = "class"
 Terminator = ";"
@@ -58,8 +58,6 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 
-
-PROMPTUSER = True
 class Variable:
     def __init__(self,typeName,name):
         self.typeName = typeName
@@ -107,15 +105,14 @@ def writeReturnComment(variable):
     
 def writeParamComment(variable):
     defaultCommentParam = "sets the appropriate "+variable.typeName+" to the variable "+variable.name;                                                                                       
-    return CParam + Whitespace + variable.typeName + Whitespace + variable.name + Whitespace + defaultToComment(promptUser("Type short description for setter of: " + variable.name + " :"),defaultCommentParam)
+    return CParam + Whitespace + variable.typeName + Whitespace + variable.name + Whitespace + defaultToComment(promptUser("Type short description for setter of: " + variable.name),defaultCommentParam)
     
-
 def newLineComment():
     return "\n" + CMiddle + CWhitespace
 
 def writeMultilineComment(variable,context,getter):
     stream = CStart + newLineComment()
-    stream = stream + promptUser("Type short description for" + context + ": \n") + newLineComment()
+    stream = stream + promptUser("Type short description for " + context + ": \n") + newLineComment()
     if getter:
         stream = stream +  writeReturnComment(variable) + newLineComment()
     else:
@@ -180,16 +177,27 @@ def WriteFile(buffer,file,variables):
     file.write(buffer)
     file.close()
     pass
+def forceFocus(root):
+    root.overrideredirect(True)
+    root.geometry('0x0+0+0')
+    root.deiconify()
+    root.lift()
+    root.focus_force()
+
 def AskForFile():
     root = tk.Tk()
     root.withdraw()
-    global OVERWRITE
-    OVERWRITE = promptUserBoolean("Y to overwrite file and N to keep both copies"):
 
+    
+    global OVERWRITE
+    OVERWRITE = promptUserBoolean("Y to overwrite file and N to keep both copies")
     if promptUserBoolean("Y for file N for Directory"):
+        forceFocus(root)
         ReadFile(filedialog.askopenfilename())
     else:
+        forceFocus(root)
         ReadFile(filedialog.askdirectory())
+    root.destroy()
     
 def ReadFile(whereFrom):
     filename, file_extension = os.path.splitext(whereFrom)
